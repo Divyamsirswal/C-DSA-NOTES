@@ -1,0 +1,72 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX 100
+
+void enqueue(int a[],int* front,int* back,int val){
+    if(*front==0 && *back==MAX-1 || (*back+1==*front)){
+        printf("Queue overflow!\n");
+        return;
+    }
+    else{
+        if(*front==-1) *front=0;
+        *back=(*back+1)%MAX;
+        a[*back]=val;
+    }
+}
+
+void dequeue(int a[],int* front,int* back){
+    if(*front==-1){
+        printf("Queue underflow!\n");
+        return;
+    }
+    else{
+        if(*front==*back){
+            *front=-1;
+            *back=-1;
+        }
+        else{
+            *front=(*front+1)%MAX;
+        }
+    }
+}
+
+void display(int a[],int* front,int* back){
+    if(*front==-1){
+        printf("Queue underflow!\n");
+        return;
+    }
+    for(int i=*front;i<=*back;i=(i+1)%MAX){
+        printf("%d ",a[i]);
+    }
+    printf("\n");
+}
+
+int main(){
+    int a[MAX],front=-1,back=-1,val;
+    int choice;
+    do{
+        printf("Enter choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:{
+                printf("Enter the val to insert : "); scanf("%d",&val);
+                enqueue(a,&front,&back,val);
+                break;
+            }
+            case 2:{
+                dequeue(a,&front,&back);
+                break;
+            }
+            case 3:{
+                printf("[C I R Q U E U E] ->");
+                display(a,&front,&back);
+                break;
+            }
+            default:{
+                printf("Try again later! Thank you\n");
+                exit(0);
+            }
+        }
+    }while(1);
+}

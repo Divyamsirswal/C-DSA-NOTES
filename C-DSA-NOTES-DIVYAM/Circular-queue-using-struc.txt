@@ -1,0 +1,71 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX 100
+
+typedef struct cqueue{
+    int *p;
+    int mxSize;
+    int front;
+    int back;
+}cqueue;
+
+void create(cqueue *c){
+    c->p=(int*)malloc(MAX*sizeof(int));
+    c->mxSize=MAX;
+    c->front=-1;
+    c->back=-1;
+}
+
+void enqueue(cqueue *c,int val){
+    if((c->front==c->back+1) || (c->front==0 && c->back==MAX-1)){
+        printf("Queue overflow!\n");
+        return;
+    }
+    if(c->front==-1) c->front=0;
+    c->back=(c->back+1)%c->mxSize;
+    c->p[c->back]=val;
+}
+
+void dequeue(cqueue *c){
+    if(c->front==-1){
+        printf("Queue underflow!\n");
+        return;
+    }
+    else{
+        if(c->front==c->back){
+            c->front=-1;
+            c->back=-1;
+        }
+        else{
+            c->front=(c->front+1)%MAX;
+        }
+    }
+}
+
+void display(cqueue *c){
+    if(c->front==-1){
+        printf("Queue underflow!\n");
+        return;
+    }
+    printf("Circular Queue : ");
+    for(int i=c->front;i<=c->back;i=(i+1)%MAX){
+        printf("%d ",c->p[i]);
+    }
+    printf("\n");
+}
+
+int main(){
+    cqueue c;
+    create(&c);
+    enqueue(&c,1);
+    enqueue(&c,2);
+    enqueue(&c,3);
+    enqueue(&c,4);
+    enqueue(&c,5);
+    display(&c);
+    dequeue(&c);
+    dequeue(&c);
+    dequeue(&c);
+    display(&c);
+}

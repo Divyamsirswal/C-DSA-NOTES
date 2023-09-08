@@ -1,0 +1,187 @@
+Time : 10:06 PM 08-09-2023
+owner : Divyam Sirswal
+
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX 100
+
+typedef struct Node{
+    int val;
+    struct Node* next;
+}node;
+
+node* insertAtHead(node** head){
+    node* temp;
+    temp=(node*)malloc(sizeof(node));
+    scanf("%d",&temp->val);
+    if(temp==NULL){
+        printf("List is full!\n");
+        return 0;
+    }
+    temp->next=*head;
+    *head=temp;
+}
+
+node* insertAtTail(node** head){
+    node* temp;
+    temp=(node*)malloc(sizeof(node));
+    scanf("%d",&temp->val);
+    if(temp==NULL){
+        printf("List is full!\n");
+        return 0;
+    }
+    node* k=*head;
+    while(k->next!=NULL){
+        k=k->next;
+    }
+    k->next=temp;
+    temp->next= NULL;
+}
+
+node* insertAtAnyPosition(node** head,int posi){
+    node* temp;
+    temp=(node*)malloc(sizeof(node));
+    scanf("%d",&temp->val);
+    if(temp==NULL){
+        printf("List is full!\n");
+        return 0;
+    }
+    else if(*head==NULL){
+        *head=temp;
+    }
+    node* k=*head;
+    node* curr;
+    int c=0;
+    while(c<posi-1){
+        curr=k;
+        k=k->next;
+        c++;
+    }
+    temp->next=k;
+    curr->next=temp;
+    
+}
+
+node* display(node** head){
+    if(*head==NULL){
+        printf("List is empty!\n");
+        return 0;
+    }
+    node* temp=*head;
+    while(temp!=NULL){
+        printf("%d ",temp->val);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+
+node* deleteAtHead(node** head){
+    if(*head==NULL){
+        printf("List is empty!\n");
+        return 0;
+    }
+    node* temp=*head;
+    *head=temp->next;
+    free(temp);
+}
+
+node* deleteAtTail(node** head){
+    if(*head==NULL){
+        printf("List is empty!\n");
+        return 0;
+    }
+    node* temp=*head;
+    node* curr;
+
+    while(temp->next!=NULL){
+        curr=temp;
+        temp=temp->next;
+    }
+    curr->next=NULL;
+    free(temp);
+}
+
+node* deleteAtAnyPosition(node** head,int posi){
+    if(*head==NULL){
+        printf("List is empty!\n");
+        return 0;
+    }
+    node* k=*head;
+    node* curr;
+    int c=0;
+    while(c<posi-1){
+        curr=k;
+        k=k->next;
+        c++;
+    }
+    curr->next=k->next;
+    k->next=NULL;
+    free(k);
+}
+
+node* len(node** head){
+    if(*head==NULL){
+        printf("List is empty!\n");
+        return 0;
+    }
+    int c=0;
+    node* temp=*head;
+    while(temp!=NULL){
+        c++;
+    }
+    printf("Length of list : %d\n",c);
+}
+
+int main(){
+    int choice,val;
+    node* head=NULL;
+
+    do{
+        printf("Enter choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:{
+                insertAtHead(&head);
+                break;
+            }
+            case 2:{
+                insertAtTail(&head);
+                break;
+            }
+            case 3:{
+                printf("Enter the position where to insert : ");
+                int k; scanf("%d",&k);
+                insertAtAnyPosition(&head,k);
+                break;
+            }
+            case 4:{
+                printf("[L I S T] -> ");
+                display(&head);
+                break;
+            } 
+            case 5:{
+                deleteAtHead(&head);
+                break;
+            } 
+            case 6:{
+                deleteAtTail(&head);
+                break;  
+            }
+            case 7:{
+                printf("Enter the position of node to delete : ");
+                int k; scanf("%d",&k);
+                deleteAtAnyPosition(&head,k);
+                break;
+            }
+            case 8:{
+                len(&head);
+                break;
+            }
+            default:{
+                printf("Try again later ! Thank you\n");
+                exit(0);
+            }
+        }
+    }while(1);
+}

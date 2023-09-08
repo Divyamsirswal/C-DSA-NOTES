@@ -1,0 +1,85 @@
+Time : 10:06 PM 08-09-2023
+owner : Divyam Sirswal
+
+#include<stdio.h>
+#include<stdlib.h>
+
+#define mxSize 100
+
+void push(int a[],int *top,int val){
+    if(*top==mxSize-1){
+        printf("Stack overflow!\n");
+        return;
+    }
+    *top=*top+1;
+    a[*top]=val;
+}
+
+void pop(int a[],int *top){
+    if(*top==-1){
+        printf("Stack underflow!\n");
+        return;
+    }
+    *top=*top-1;
+}
+
+void display(int a[],int *top){
+    if(*top==-1){
+        printf("Stack underflow!\n");
+        return;
+    }
+    for(int i=*top;i>=0;i--){
+        printf("%d ",a[i]);
+    }
+    printf("\n");
+}
+
+void size(int a[],int *top){
+    if(*top==-1){
+        printf("Stack underflow!\n");
+        return;
+    }
+    printf("Size : %d\n",*top+1);
+}
+
+void isEmpty(int a[],int *top){
+    if(*top==-1) printf("Stack is empty!\n");
+    else printf("Stack is not empty!\n");
+}
+
+int main(){
+    int top=-1,a[mxSize],d,choice;
+    do{
+        printf("Enter choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:{
+                printf("Enter the val to push : ");
+                scanf("%d",&d);
+                push(a,&top,d);
+                break;
+            }
+            case 2:{
+                pop(a,&top);
+                break;
+            }
+            case 3:{
+                printf("[S T A C K] -> ");
+                display(a,&top);
+                break;
+            }
+            case 4:{
+                size(a,&top);
+                break;
+            }
+            case 5:{
+                isEmpty(a,&top);
+                break;
+            }
+            default:{
+                printf("Try again later ! Thank you\n");
+                exit(0);
+            }
+        }
+    }while(1);
+}

@@ -1,0 +1,90 @@
+Time : 10:06 PM 08-09-2023
+owner : Divyam Sirswal
+
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX 100
+
+typedef struct queue{
+    int* p;
+    int mxSize;
+    int front;
+    int back;
+}queue;
+
+void create(queue *q){
+    q->p=(int*)malloc(MAX*sizeof(int));
+    q->mxSize=MAX;
+    q->front=-1;
+    q->back=-1;
+}
+
+void enqueue(queue *q,int val){
+    if(q->back==q->mxSize){
+        printf("Queue overflow!\n");
+        return;
+    }
+    q->back++;
+    q->p[q->back]=val;
+    q->front=0;
+}
+
+void dequeue(queue *q){
+    if(q->front==-1){
+        printf("Queue underflow!\n");
+        return;
+    }
+    q->front++;
+    if(q->front==q->back){
+        q->front=-1;
+        q->back=-1;
+    }
+}
+
+void display(queue *q){
+    if(q->front==-1 || q->front>=q->back){
+        printf("Queue underflow!\n");
+        return;
+    }
+    for(int i=q->front;i<=q->back;i++){
+        printf("%d ",q->p[i]);
+    }
+    printf("\n");
+}
+
+void size(queue *q){
+    if(q->front==-1 || q->front>=q->back){
+        printf("Queue underflow!\n");
+        return;
+    }
+    int c=0;
+    for(int i=q->front;i<=q->back;i++) c++;
+    printf("Size : %d\n",c);
+}
+
+void isEmpty(queue *q){
+    if(q->front == -1) printf("Queue is empty!\n");
+    else printf("Queue is not empty!\n");
+}
+
+int main(){
+    queue q;
+    create(&q);
+    enqueue(&q,1);
+    enqueue(&q,2);
+    enqueue(&q,3);
+    enqueue(&q,4);
+    enqueue(&q,5);
+    enqueue(&q,6);
+    size(&q);
+    display(&q);
+    dequeue(&q);
+    dequeue(&q);
+    dequeue(&q);
+    display(&q);
+    size(&q);
+    dequeue(&q);
+    dequeue(&q);
+    dequeue(&q);
+}

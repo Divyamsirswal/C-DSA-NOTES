@@ -1,0 +1,82 @@
+Time : 10:05 PM 08-09-2023
+owner : Divyam Sirswal
+
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct stack{
+    int *p;
+    int mxSize;
+    int arrSize;
+}stack;
+
+void create(stack *s,int SIZE){
+    s->p=(int*)malloc(SIZE*sizeof(int));
+    s->mxSize=SIZE;
+    s->arrSize=0;
+}
+
+void push(stack *s,int val){
+    if(s->arrSize==s->mxSize){
+        printf("Stack overflow!\n");
+        return;
+    }
+    s->p[s->arrSize]=val;
+    s->arrSize++;
+}
+
+void pop(stack *s){
+    if(s->arrSize==0){
+        printf("Stack underflow!\n");
+        return;
+    }
+    s->arrSize--;
+}
+
+void display(stack *s){
+    if(s->arrSize==0){
+        printf("Stack underflow!\n");
+        return;
+    }
+    for(int i=s->arrSize-1;i>=0;i--){
+        printf("%d ",s->p[i]);
+    }
+    printf("\n");
+}
+
+void size(stack *s){
+    if(s->arrSize==0){
+        printf("Stack underflow!\n");
+        return;
+    }
+    printf("Size : %d\n",s->arrSize);
+}
+
+void isEmpty(stack *s){
+    if(s->arrSize==0) printf("Stack is empty!\n");
+    else printf("Stack is not empty!\n");
+}
+
+int main(){
+    stack s;
+    create(&s,10);
+    push(&s,1);
+    push(&s,2);
+    push(&s,3);
+    push(&s,4);
+    push(&s,5);
+    push(&s,6);
+    push(&s,7);
+    display(&s);
+    size(&s);
+    pop(&s);
+    pop(&s);
+    pop(&s);
+    display(&s);
+    size(&s);
+    pop(&s);
+    pop(&s);
+    pop(&s);
+    pop(&s);
+    size(&s);
+}

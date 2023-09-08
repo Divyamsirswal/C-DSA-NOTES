@@ -1,0 +1,94 @@
+Time : 10:06 PM 08-09-2023
+owner : Divyam Sirswal
+
+#include<stdio.h>
+#include<stdlib.h>
+
+#define MAX 100
+
+void enqueue(int a[],int val,int *front,int *back){
+    if(*back==MAX-1){
+        printf("Queue overflow!\n");
+        return;
+    }
+    *back=*back+1;
+    a[*back]=val;
+    *front=0;
+}
+
+void dequeue(int a[],int *front,int *back){
+    if(*front==-1){
+        printf("Queue underflow!\n");
+        return;
+    }
+    *front=*front+1;
+    if(*front==*back){
+        *front=-1;
+        *back=-1;
+    }
+}
+
+void display(int a[],int *front,int *back){
+    if(*front==-1 || *front>*back){
+        printf("Queue underflow!\n");
+        return;
+    }
+    for(int i=*front;i<=*back;i++){
+        printf("%d ",a[i]);
+    }
+    printf("\n");
+}
+
+void size(int a[],int *front,int *back){
+    if(*front==-1 || *front>*back){
+        printf("Queue underflow!\n");
+        return;
+    }
+    int c=0;
+    for(int i=*front;i<=*back;i++){
+        c++;
+    }
+    printf("Size : %d\n",c);
+}
+
+void isEmpty(int a[],int *front,int *back){
+    if(*front==-1 || *front>*back) printf("Queue is empty!\n");
+    else printf("Queue is not empty!\n");
+}
+
+int main(){
+    int front=-1,back=-1,a[MAX],val,choice;
+    do{
+        printf("Enter choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1:{
+                printf("Enter the val to inqueue : ");
+                scanf("%d",&val);
+                enqueue(a,val,&front,&back);
+                break;
+            }
+            case 2:{
+                dequeue(a,&front,&back);
+                break;
+            }
+            case 3:{
+                printf("[Q U E U E] -> ");
+                display(a,&front,&back);
+                break;
+            }
+            case 4:{
+                size(a,&front,&back);
+                break;
+            }
+            case 5:{
+                isEmpty(a,&front,&back);
+                break;
+            }
+	    default:{
+	    	printf("Try again later! Thank you");
+		exit(0);
+	    }
+        }
+    }while(1); 
+}
