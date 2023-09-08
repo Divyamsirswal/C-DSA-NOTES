@@ -1,3 +1,6 @@
+Time : 10:50 PM 08-09-2023
+owner : Divyam Sirswal
+
 #include<stdio.h>
 #include<stdlib.h>
 
