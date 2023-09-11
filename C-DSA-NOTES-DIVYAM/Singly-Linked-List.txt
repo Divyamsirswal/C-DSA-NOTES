@@ -133,6 +133,28 @@ node* len(node** head){
     printf("Length of list : %d\n",c);
 }
 
+node* reverse(node** head){
+	if(*head==NULL){
+		printf("List is empty!\n");
+		return 0;
+	}
+	node* prev=NULL;
+	node* curr=*head;
+	node* forw=NULL;
+	while(curr!=NULL){
+		forw=curr->next;
+		curr->next=prev;
+		prev=curr;
+		curr=forw;
+	}
+	*head=prev;
+	while(prev!=NULL){
+		printf("%d ",prev->val);
+		prev=prev->next;
+	}
+	printf("\n");
+}
+
 int main(){
     int choice,val;
     node* head=NULL;
@@ -178,6 +200,10 @@ int main(){
                 len(&head);
                 break;
             }
+			case 9:{
+				reverse(&head);
+				break;
+			}
             default:{
                 printf("Try again later ! Thank you\n");
                 exit(0);
