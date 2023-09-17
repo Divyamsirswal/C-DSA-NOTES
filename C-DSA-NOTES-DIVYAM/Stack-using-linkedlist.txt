@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct stack{
+    int val;
+    struct stack* next;
+}stack;
+
+void push(stack** top,int val){
+    stack* temp;
+    temp=(stack*)malloc(sizeof(stack));
+    if(temp==NULL){
+        printf("stack overflow!\n");
+        return;
+    }
+    temp->val=val;
+    temp->next=*top;
+    *top=temp;
+}
+
+void pop(stack** top){
+    stack* temp;
+    if(*top==NULL){
+        printf("stack underflow!\n");
+        return;
+    }
+    temp=*top;
+    *top=(*top)->next;
+    free(temp);
+}
+
+void display(stack** top){
+    stack* temp;
+    if(*top==NULL){
+        printf("stack underflow!\n");
+        return;
+    }
+    temp=*top;
+    while(temp!=NULL){
+        printf("%d ",temp->val);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+
+int main(){
+    stack* top=NULL;
+    int ch;
+    do{
+        scanf("%d",&ch);
+        switch(ch){
+            case 1:{
+                int val; scanf("%d",&val);
+                push(&top,val);
+                break;
+            }
+            case 2:{
+                pop(&top);
+                break;
+            }
+            case 3:{
+                display(&top);
+                break;
+            }
+            default:{
+                exit(0);
+            }
+        }
+    }while(1);
+}

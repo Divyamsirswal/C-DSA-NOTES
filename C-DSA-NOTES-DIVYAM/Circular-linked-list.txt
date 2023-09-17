@@ -1,0 +1,226 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct clist {
+    int val;
+    struct clist* next;
+} clist;
+
+clist* T(clist** head) {
+    clist* temp = *head;
+    while (temp->next != *head) {
+        temp = temp->next;
+    }
+    return temp;
+}
+
+void insertAtHead(clist** head, int d) {
+    clist* temp = (clist*)malloc(sizeof(clist));
+    if (temp == NULL) {
+        printf("list overflow!\n");
+        return;
+    } else {
+        temp->val = d;
+        if (*head == NULL) {
+            *head = temp;
+            temp->next = *head;
+        } else {
+            clist* last = T(head);
+            temp->next = *head;
+            last->next = temp;
+            *head = temp;
+        }
+    }
+}
+
+//not working properly
+void insertAtTail(clist** head, clist** tail, int d) {
+    clist* temp = (clist*)malloc(sizeof(clist));
+    if (*head == NULL){
+        temp->val=d;
+        temp->next =temp; 
+        *head=temp; 
+    } else {
+        clist* curr = *head;
+        while (curr->next != *head) {
+            curr = curr->next;
+        }
+        temp->val=d;
+        curr->next = temp; 
+        temp->next = *head;
+    }
+}
+
+void insertAtAnywhere(clist** head, int d, int p) {
+    clist* temp = (clist*)malloc(sizeof(clist));
+    if (temp == NULL) {
+        printf("list underflow!\n");
+        return;
+    }
+    temp->val = d;
+    int c = 0;
+    clist* curr = *head;
+    while (c < p - 1) {
+        curr = curr->next;
+        c++;
+    }
+    temp->next = curr->next;
+    curr->next = temp;
+}
+
+void deleteAtHead(clist** head) {
+    if (*head == NULL) {
+        printf("list underflow!\n");
+        return;
+    }
+    clist* temp = *head;
+    clist* last = T(head);
+    *head = (*head)->next;
+    last->next = *head;
+    free(temp);
+}
+
+//not working properly
+void deleteAtTail(clist** head, clist** tail) {
+     if(*head==NULL){
+        printf("list underflow!\n");
+        return;
+    }
+    clist* temp = *head;
+    clist* prev = NULL;
+
+    while (temp->next != *head) {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (prev == NULL){
+
+        free(temp);
+        *head = NULL;
+    } else {
+        prev->next = *head;
+        free(temp); 
+    }
+}
+
+void deleteAtAnywhere(clist** head, int p) {
+    if (*head == NULL) {
+        printf("list underflow!\n");
+        return;
+    }
+    if (p == 0) {
+        // Special case: deleting the head
+        deleteAtHead(head);
+        return;
+    }
+    int c = 0;
+    clist* temp = *head;
+    clist* curr = NULL;
+    while (c < p) {
+        curr = temp;
+        temp = temp->next;
+        c++;
+    }
+    curr->next = temp->next;
+    free(temp);
+}
+
+void display(clist** head){
+    if (*head == NULL) {
+        printf("list is empty!\n");
+        return;
+    }
+    clist* temp=*head;
+    do{
+        printf("%d ",temp->val);
+        temp=temp->next;
+    }while(temp!=*head);
+    printf("\n");
+}
+
+int length(clist** head) {
+    if (*head == NULL) {
+        printf("list is empty!\n");
+        return 0;
+    }
+    int c = 0;
+    clist* temp = *head;
+    do {
+        temp = temp->next;
+        c++;
+    } while (temp != *head);
+    return c;
+}
+
+int isEmpty(clist** head) {
+    if (*head == NULL) {
+        printf("list is empty!\n");
+        return 1;
+    } else {
+        printf("list is not empty!\n");
+        return 0;
+    }
+}
+
+int main() {
+    clist* head = NULL;
+    clist* tail = NULL;
+    int ch;
+    do {
+        printf("Enter choice :");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1: {
+                int val;
+                scanf("%d", &val);
+                insertAtHead(&head, val);
+                break;
+            }
+            case 2: {
+                int val;
+                scanf("%d", &val);
+                tail = T(&head);
+                insertAtTail(&head, &tail, val);
+                break;
+            }
+            case 3: {
+                int val;
+                int posi;
+                scanf("%d%d", &val, &posi);
+                insertAtAnywhere(&head, val, posi);
+                break;
+            }
+            case 4: {
+                deleteAtHead(&head);
+                break;
+            }
+            case 5: {
+                tail = T(&head);
+                deleteAtTail(&head, &tail);
+                break;
+            }
+            case 6: {
+                int posi;
+                scanf("%d", &posi);
+                deleteAtAnywhere(&head, posi);
+                break;
+            }
+            case 7: {
+                int len = length(&head);
+                printf("The length : %d\n", len);
+                break;
+            }
+            case 8: {
+                int empty = isEmpty(&head);
+                break;
+            }
+            case 9:{
+                display(&head);
+                break;
+            }
+            default: {
+                exit(0);
+            }
+        }
+    } while (1);
+}

@@ -1,0 +1,80 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct cqueue{
+    int val;
+    struct cqueue* next;
+}cqueue;
+
+void insert(cqueue** front,cqueue** back,int val){
+    cqueue* temp;
+    temp=(cqueue*)malloc(sizeof(cqueue));
+    temp->val=val;
+    temp->next=NULL;
+    if(*back==NULL && *front==NULL){
+        *front=*back=temp;
+        temp->next=*front;
+    }
+    else{
+        (*back)->next=temp; 
+        *back=temp;
+        temp->next=(*front);
+    }
+}
+
+void delete(cqueue** front,cqueue** back){
+    cqueue* temp=*front;
+    if(*front==NULL && *back==NULL){
+        printf("queue underflow!\n");
+        return;
+    }
+    else if(*front==*back){
+        *front=*back=NULL;
+        free(temp);
+    }
+    else{
+        *front=(*front)->next;
+        (*back)->next=*front;
+        free(temp);
+    }
+}
+
+void display(cqueue** front,cqueue** back){
+    cqueue* temp=*front;
+    if(*front==NULL && *back==NULL){
+        printf("queue underflow!\n");
+        return;
+    }
+    do{
+        printf("%d ",temp->val);
+        temp=temp->next;
+    }while(temp!=*front);
+    printf("\n");
+}
+
+int main(){
+    cqueue* front=NULL;
+    cqueue* back=NULL;
+    int ch;
+    do{
+        scanf("%d",&ch);
+        switch(ch){
+            case 1:{
+                int k; scanf("%d",&k);
+                insert(&front,&back,k);
+                break;
+            }
+            case 2:{
+                delete(&front,&back);
+                break;
+            }
+            case 3:{
+                display(&front,&back);
+                break;
+            }
+            default:{
+                exit(0);
+            }
+        }
+    }while(1);
+}
