@@ -1,0 +1,135 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list {
+    int val;
+    struct list* prev;
+    struct list* next;
+} list;
+
+void inserthead(list** head) {
+    list* temp = (list*)malloc(sizeof(list));
+    if (temp == NULL) {
+        printf("list overflow!\n");
+        return;
+    }
+    scanf("%d", &temp->val);
+    temp->next = NULL;
+    temp->prev = NULL;
+    if (*head == NULL) {
+        temp->next = temp;
+        temp->prev = temp;
+        *head = temp;
+    } else {
+        list* k = (*head)->prev;
+        temp->next = *head;
+        temp->prev = k;
+        k->next = temp;
+        (*head)->prev = temp;
+        *head = temp;
+    }
+}
+
+void inserttail(list** head) {
+    list* temp = (list*)malloc(sizeof(list));
+    if (temp == NULL) {
+        printf("list overflow!\n");
+        return;
+    }
+    scanf("%d", &temp->val);
+    temp->next = NULL;
+    temp->prev = NULL;
+    if (*head == NULL) {
+        temp->next = temp;
+        temp->prev = temp;
+        *head = temp;
+    } else {
+        list* k = (*head)->prev;
+        temp->next = *head;
+        temp->prev = k;
+        k->next = temp;
+        (*head)->prev = temp;
+    }
+}
+
+void deletehead(list** head) {
+    if (*head == NULL) {
+        printf("list underflow!\n");
+        return;
+    } else {
+        list* temp = *head;
+        list* k = (*head)->prev;
+        if (*head == (*head)->next) {
+            *head = NULL;
+        } else {
+            *head = (*head)->next;
+            (*head)->prev = k;
+            k->next = *head;
+        }
+        free(temp);
+    }
+}
+
+void deletetail(list** head) {
+    if (*head == NULL) {
+        printf("list underflow!\n");
+        return;
+    } else {
+        list* temp = (*head)->prev;
+        list* k = temp->prev;
+        if (temp == *head) {
+            *head = NULL;
+        } else {
+            k->next = *head;
+            (*head)->prev = k;
+        }
+        free(temp);
+    }
+}
+
+void display(list** head) {
+    if (*head == NULL) {
+        printf("list underflow!\n");
+        return;
+    } else {
+        list* k = *head;
+        do {
+            printf("%d ", k->val);
+            k = k->next;
+        } while (k != *head);
+        printf("\n");
+    }
+}
+
+int main() {
+    list* head = NULL;
+    int ch;
+    do {
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1: {
+                inserthead(&head);
+                break;
+            }
+            case 2: {
+                inserttail(&head);
+                break;
+            }
+            case 3: {
+                deletehead(&head);
+                break;
+            }
+            case 4: {
+                deletetail(&head);
+                break;
+            }
+            case 5: {
+                display(&head);
+                break;
+            }
+            default: {
+                exit(0);
+            }
+        }
+    } while (1);
+}
